@@ -3,7 +3,33 @@
 #include <SFML/Graphics.hpp>
 #include<iostream>
 #include<vector>
+#include<map>
 using namespace std;
+
+vector<objectbody> bodies;
+
+struct objectbody {
+	sf::Shape* body_shape;
+	float radius;
+	float weight;
+	float x_velocity;
+	float y_velocity;
+	float x_position;
+	float y_position;
+};
+
+class Basic2DP {
+public:
+	void add_new_component(objectbody body ) {
+		bodies.push_back(body);
+	}
+	void process_movement(float delta_t) {
+		for (objectbody body : bodies) {
+			body.body_shape->setPosition({ body.x_position + body.x_velocity * delta_t, body.y_position + body.y_velocity * delta_t });
+		}
+	}
+};
+
 
 enum shapetype {
 	circle, rectangle
@@ -28,13 +54,20 @@ sf::Shape* shapemaker(shapetype type, sf::Vector2f size, sf::Color color = sf::C
 	}
 }
 
-int main() {
+sf::RenderWindow windowmaker() {
 	sf::View view;
-	sf::RenderWindow window(sf::VideoMode({840,640}), "adad");
+	sf::RenderWindow window(sf::VideoMode({ 840,640 }), "adad");
 	window.setFramerateLimit(60);
-	view.setSize({840,-640});
-	view.setCenter({0,0});
+	view.setSize({ 840,-640 });
+	view.setCenter({ 0,0 });
 	window.setView(view);
+	return window;
+}
+
+int main() {
+	Basic2DP manager;
+
+	sf::RenderWindow window = windowmaker();
 	
 	sf::Shape* circle = shapemaker(shapetype::circle, { 20,20 });
 	circle->setPosition({ 0,0 });
