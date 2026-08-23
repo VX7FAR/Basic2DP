@@ -1,57 +1,57 @@
 //1m = 100units (pixels)
-
+/*
+Assumptions made:
+1. There is no air drag and friction among the bodies and border
+*/
 #include <SFML/Graphics.hpp>
 #include<iostream>
 #include<vector>
 #include<map>
 using namespace std;
 
-vector<objectbody> bodies;
 
 struct objectbody {
 	sf::Shape* body_shape;
 	float radius;
 	float weight;
+
 	float x_velocity;
 	float y_velocity;
 	float x_position;
 	float y_position;
 };
 
+vector<objectbody> bodies;
+
 class Basic2DP {
+	sf::RenderWindow& window;
 public:
-	void add_new_component(objectbody body ) {
-		bodies.push_back(body);
+	Basic2DP(sf::RenderWindow& main_window) : window(main_window) {
 	}
+
+	void drawbodies() {
+		for (objectbody &body : bodies) {
+				window.draw(*body.body_shape);
+		}
+	}
+
 	void process_movement(float delta_t) {
-		for (objectbody body : bodies) {
-			body.body_shape->setPosition({ body.x_position + body.x_velocity * delta_t, body.y_position + body.y_velocity * delta_t });
+		for (objectbody &body : bodies) {
+			
 		}
 	}
 };
 
-
-enum shapetype {
-	circle, rectangle
-};
-
-sf::Shape* shapemaker(shapetype type, sf::Vector2f size, sf::Color color = sf::Color::Blue) {
-	if (type == circle) {
-		sf::CircleShape circle(size.x);
-		circle.setFillColor(color);
-		circle.setOrigin(sf::Vector2f{ size.x , size.y });
-		return new sf::CircleShape(circle);
-	}
-	else if (type == rectangle) {
-		sf::RectangleShape rectange(size);
-		rectange.setFillColor(color);
-		rectange.setOrigin(sf::Vector2f{ size.x / (float)2.0, size.y / (float)2.0 });
-		return new sf::RectangleShape(rectange);
-	}
-	else
-	{
-		return nullptr;
-	}
+objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf::Color clr = sf::Color::Red, float weight = 1) {
+	sf::CircleShape circle(radius);
+	circle.setPosition(position);
+	circle.setOrigin({ radius, radius });
+	circle.setFillColor(clr);
+	objectbody obj;
+	obj.body_shape = new sf::CircleShape(circle);
+	obj.radius = radius;
+	obj.weight = weight;
+	return obj;
 }
 
 sf::RenderWindow windowmaker() {
@@ -65,32 +65,33 @@ sf::RenderWindow windowmaker() {
 }
 
 int main() {
-	Basic2DP manager;
 
 	sf::RenderWindow window = windowmaker();
 	
-	sf::Shape* circle = shapemaker(shapetype::circle, { 20,20 });
-	circle->setPosition({ 0,0 });
+	bodies.push_back(make_objectbody(20.0, {100.0,300.0} , sf::Color::Green));
+	bodies.push_back(make_objectbody(20.0, {-200.0,-200.0}, sf::Color::Blue));
+	bodies.push_back(make_objectbody(20.0, {0.0,0.0}, sf::Color::Yellow));
 
-	sf::Shape* circle2 = shapemaker(shapetype::circle, { 20,20 }, sf::Color::Cyan);
-	circle2->setPosition({ 110,110 });
+	Basic2DP manager(window);
+	sf::Clock clock;
+	sf::Time dt;
 
-	sf::Shape* border = shapemaker(shapetype::rectangle, { 840,640 }, sf::Color::Transparent);
-	border->setOrigin(sf::Vector2f{ 420.0,320.0 });
-	border->setOutlineThickness(-20);
-	border->setOutlineColor(sf::Color::Red);
+	sf::RectangleShape border({ 840,640 });
+	border.setFillColor(sf::Color::Transparent);
+	border.setOrigin(sf::Vector2f{ 420.0,320.0 });
+	border.setOutlineThickness(-20);
+	border.setOutlineColor(sf::Color::Red);
 
 	while (window.isOpen()) {
+		cout << clock.reset().asMicroseconds() << '/n';
 		window.clear();
 		while (const std::optional event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) { window.close(); }
 		}
 
-		window.draw(*border);
-		window.draw(*circle);
-		window.draw(*circle2);
+		manager.drawbodies();
+		window.draw(border);
 		window.display();
 
-		cout << window.getSize().y << endl;
 	}
 }
