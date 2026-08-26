@@ -29,6 +29,8 @@ struct normals {
 
 vector<objectbody> bodies;
 
+
+
 class Basic2DP {
 	sf::RenderWindow& window;
 	bool hitx = false;;
@@ -83,25 +85,27 @@ public:
 		}
 	}
 
-	void process_collision() {
+	void process_wall_collision() {
+		float screen_x = (window.getSize().x / 2.0) - 20.0;
+		float screen_y = (window.getSize().y / 2.0) - 20.0;
 		for (objectbody &body : bodies) {
-			float x = body.x_position;
-			float y = body.y_position;
-			if (((window.getSize().x / 2.0) - 20.0 - abs(x)) < body.radius && !hitx) { 
+			float x_pos = body.x_position;
+			float y_pos = body.y_position;
+			if ((screen_x - body.x_position < body.radius || screen_x - body.x_position > 780.0) && !hitx) {
 				body.x_velocity = -body.x_velocity;
-				cout << "hit x" << endl;
 				hitx = true;
+				cout << "Hit x" << endl;
 			}
-			else if(((window.getSize().x / 2.0) - 20.0 - abs(x)) > body.radius && hitx)
+			else if(!(screen_x - body.x_position < body.radius || screen_x - body.x_position > 780.0))
 			{
 				hitx = false;
 			}
-			if (((window.getSize().y / 2.0) - 20.0 - abs(y)) < body.radius && !hity) {
+			if ((screen_y - body.y_position < body.radius || screen_y - body.y_position > 580.0) && !hity) {
 				body.y_velocity = -body.y_velocity;
-				cout << "hit y" << endl;
-				hity = true;
+				hitx = true;
+				cout << "Hit x" << endl;
 			}
-			else if(((window.getSize().y / 2.0) - 20.0 - abs(y)) > body.radius && hity)
+			else if (!(screen_y - body.y_position < body.radius || screen_y - body.y_position > 580.0))
 			{
 				hity = false;
 			}
@@ -140,7 +144,7 @@ int main() {
 
 	sf::RenderWindow window = windowmaker();
 
-	bodies.push_back(make_objectbody(20.0, {0.0,0.0}, sf::Color::Yellow));
+	bodies.push_back(make_objectbody(20.0, {0.0 ,0.0}, sf::Color::Yellow));
 
 	Basic2DP manager(window);
 	sf::Clock clock;
@@ -149,11 +153,11 @@ int main() {
 
 	sf::RectangleShape border({ 840,640 });
 	border.setFillColor(sf::Color::Transparent);
-	border.setOrigin(sf::Vector2f{ 420.0,320.0 });
+	border.setOrigin(sf::Vector2f{ 420.0 ,320.0});
 	border.setOutlineThickness(-20);
 	border.setOutlineColor(sf::Color::Red);
 
-	manager.velocity_updater(-500.0, -50.0);
+	manager.velocity_updater(250.0, 100.0);
 
 	while (window.isOpen()) {
 		window.clear();
@@ -162,10 +166,12 @@ int main() {
 			if (event->is<sf::Event::Closed>()) { window.close(); }
 		}
 
-		manager.process_collision();
+		manager.process_wall_collision();
 		manager.process_movement(dt);
 		manager.drawbodies();
 		window.draw(border);
 		window.display();
+
+		cout << bodies[0].x_position << " , " << bodies[0].y_position << endl;
 	}
 }
