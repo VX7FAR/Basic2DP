@@ -2,7 +2,7 @@
 #include <SFML/graphics.hpp>
 #include<vector>
 
-objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf::Color clr = sf::Color::Red, float mass = 1) {
+objectbody make_objectbody(float radius, sf::Vector2f position, sf::Color clr, float mass) {
 	sf::CircleShape circle(radius);
 	circle.setPosition(position);
 	circle.setOrigin({ radius, radius });
@@ -11,10 +11,10 @@ objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf
 	obj.body_shape = new sf::CircleShape(circle);
 	obj.radius = radius;
 	obj.mass = mass;
-	obj.x_position = circle.getPosition().x;
-	obj.y_position = circle.getPosition().y;
-	obj.x_velocity = 0.0;
-	obj.y_velocity = 0.0;
+	obj.position.x = circle.getPosition().x;
+	obj.position.y = circle.getPosition().y;
+	obj.velocity.x = 0.0;
+	obj.velocity.y = 0.0;
 	return obj;
 }
 
@@ -26,4 +26,12 @@ sf::RenderWindow windowmaker() {
 	view.setCenter({ 0,0 });
 	window.setView(view);
 	return window;
+}
+
+vector_scalar_pair find_distance(sf::Shape* shp1, sf::Shape* shp2) {
+	vector_scalar_pair pair;
+	pair.distance_vector.x = shp1->getPosition().x - shp2->getPosition().x;
+	pair.distance_vector.y = shp1->getPosition().y - shp2->getPosition().y;
+	pair.scalar = sqrt((pair.distance_vector.x * pair.distance_vector.x) + (pair.distance_vector.y * pair.distance_vector.y));
+	return pair;
 }

@@ -6,18 +6,18 @@ struct objectbody {
 	float radius;
 	float mass;
 
-	float x_velocity;
-	float y_velocity;
+	sf::Vector2f velocity;
 
-	float x_position;
-	float y_position;
+	sf::Vector2f position;
 };
 
-struct normals {
-	float x_normal;
-	float y_normal;
+struct vector_scalar_pair {
+	sf::Vector2f distance_vector;
+	float scalar;
 };
 
-static objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf::Color clr = sf::Color::Red, float mass = 1);
+objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf::Color clr = sf::Color::Red, float mass = 1);
 
 sf::RenderWindow windowmaker();
+
+vector_scalar_pair find_distance(sf::Shape* shp1, sf::Shape* shp2);

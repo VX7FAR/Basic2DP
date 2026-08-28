@@ -13,9 +13,11 @@ public:
 
 	void draw_bodies();
 
-	void velocity_updater(float x_velo, float y_velo, bool forall = true, bool increment = false, objectbody* body = nullptr){}
+	void velocity_updater(sf::Vector2f velocity, bool forall = true, bool increment = false, objectbody* body = nullptr);
 
 	void process_movement(float delta_T);
 
 	void process_wall_collision();
+
+	void process_shape_collision();
 };
