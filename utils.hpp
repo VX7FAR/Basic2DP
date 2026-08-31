@@ -5,6 +5,7 @@ struct objectbody {
 	sf::Shape* body_shape;
 	float radius;
 	float mass;
+	float e;
 
 	sf::Vector2f velocity;
 
@@ -21,3 +22,5 @@ objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf
 sf::RenderWindow windowmaker();
 
 vector_scalar_pair find_distance(sf::Shape* shp1, sf::Shape* shp2);
+
+float dotproduct(sf::Vector2f a, sf::Vector2f b);
