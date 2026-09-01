@@ -6,10 +6,8 @@
 class Basic2DP{
 	sf::RenderWindow& window;
 	std::vector<objectbody>& obj_list;
-	sf::Vector2f min;
-	sf::Vector2f max;
 public:
-	Basic2DP(sf::RenderWindow& main_window, std::vector<objectbody>& lst, sf::Vector2f screen_min, sf::Vector2f screen_max) : window(main_window), obj_list(lst), min(screen_min), max(screen_max) {}
+	Basic2DP(sf::RenderWindow& main_window, std::vector<objectbody>& lst) : window(main_window), obj_list(lst) {}
 
 	void draw_bodies();
 

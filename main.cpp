@@ -14,14 +14,11 @@ using namespace std;
 
 int main() {
 	int pause;
-	//cin >> pause;
-
-	sf::Vector2f min;
-	sf::Vector2f max;
+	cin >> pause;
 
 	vector<objectbody> bodies_list;
 	sf::RenderWindow window = windowmaker();
-	Basic2DP basic2dp_manager(window, bodies_list, min, max);
+	Basic2DP basic2dp_manager(window, bodies_list);
 
 	sf::Clock clock;
 	float dt;
@@ -38,13 +35,13 @@ int main() {
 	bodies_list.push_back(make_objectbody(20.0, { 42.0,  231.0 }, sf::Color::Cyan));
 	bodies_list.push_back(make_objectbody(20.0, { -116.0, -104.0 }, sf::Color::Yellow));
 	bodies_list.push_back(make_objectbody(20.0, { 294.0,   57.0 }, sf::Color::Blue));
-	bodies_list.push_back(make_objectbody(20.0, { -331.0, -215.0 }, sf::Color::Red));
-	basic2dp_manager.velocity_updater({ 73.0f, -41.0f }, false, false, &bodies_list[0]);
-	basic2dp_manager.velocity_updater({ -28.0f, 86.0f }, true, true, &bodies_list[1]);
-	basic2dp_manager.velocity_updater({ 52.0f, 19.0f }, false, true, &bodies_list[2]);
-	basic2dp_manager.velocity_updater({ -91.0f, -34.0f }, true, false, &bodies_list[3]);
-	basic2dp_manager.velocity_updater({ 17.0f, 68.0f }, false, false, &bodies_list[4]);
-	basic2dp_manager.velocity_updater({ -64.0f, 27.0f }, true, true, &bodies_list[5]);
+	bodies_list.push_back(make_objectbody(40.0, { -331.0, -215.0 }, sf::Color::Red, 10.0));
+	basic2dp_manager.velocity_updater({ 75.0f, -68.0f }, false, false, &bodies_list[0]);
+	basic2dp_manager.velocity_updater({ -82.0f, 95.0f }, false, false, &bodies_list[1]);
+	basic2dp_manager.velocity_updater({ 110.0f, 72.0f }, false, false, &bodies_list[2]);
+	basic2dp_manager.velocity_updater({ -90.0f, -105.0f }, false, false, &bodies_list[3]);
+	basic2dp_manager.velocity_updater({ 68.0f, 120.0f }, false, false, &bodies_list[4]);
+	basic2dp_manager.velocity_updater({ -125.0f, 80.0f }, false, false, &bodies_list[5]);
 	
 	while (window.isOpen()) {
 		window.clear();
@@ -54,13 +51,10 @@ int main() {
 		}
 
 		basic2dp_manager.process_wall_collision();
-		if (bodies_list.size() > 0) {
-			basic2dp_manager.process_shape_collision();
-		}
+		if (bodies_list.size() > 0) {basic2dp_manager.process_shape_collision(); }
 		basic2dp_manager.process_movement(dt);
 		basic2dp_manager.draw_bodies();
 		window.draw(border);
 		window.display();
-		cout << bodies_list[0].velocity.x << ", " << bodies_list[0].velocity.y << " | " << bodies_list[1].velocity.x << ", " << bodies_list[1].velocity.y << endl;
 	}
 }

@@ -48,30 +48,39 @@ void Basic2DP::process_movement(float delta_T) {
 void Basic2DP::process_wall_collision() {
 	bool hitx = false;
 	bool hity = false;
-	float screen_x = (window.getSize().x / 2.0) - 20.0;
-	float screen_y = (window.getSize().y / 2.0) - 20.0;
+	sf::Vector2f minimum = { -400.0,-300.0 };
+	sf::Vector2f maximum = { 400.0,300.0 };
+
 	for (objectbody& body : obj_list) {
 		hitx = false;
 		hity = false;
-		float x_pos = body.position.x;
-		float y_pos = body.position.y;
-		if ((screen_x - body.position.x < body.radius || screen_x - body.position.x > 780.0) && !hitx) {
-			body.velocity.x = -body.velocity.x;
+
+		if (body.position.x < minimum.x + body.radius && !hitx) { 
+			//body.position.x = minimum.x + body.radius; 
+			body.velocity.x *= -1;
 			hitx = true;
 		}
-		else if (!(screen_x - body.position.x < body.radius || screen_x - body.position.x > 780.0))
-		{
+		else if (body.position.y < minimum.y + body.radius && !hity) { 
+			//body.position.y = minimum.y + body.radius; 
+			body.velocity.y *= -1; 
+			hity = true;
+		}
+		else if (body.position.x > maximum.x - body.radius && !hitx) {
+			//body.position.x = maximum.x - body.radius;  
+			body.velocity.x *= -1; 
+			hitx = true;
+		}
+		else if (body.position.y > maximum.y - body.radius && !hity) {
+			//body.position.x = maximum.x - body.radius; 
+			body.velocity.y *= -1; 
+			hity = true;
+		}
+		else {
 			hitx = false;
-		}
-		if ((screen_y - body.position.y < body.radius || screen_y - body.position.y > 580.0) && !hity) {
-			body.velocity.y = -body.velocity.y;
-			hitx = true;
-		}
-		else if (!(screen_y - body.position.y < body.radius || screen_y - body.position.y > 580.0))
-		{
 			hity = false;
 		}
 	}
+	std::cout << minimum.x << " , " << minimum.y << " | " << maximum.x << " , " << maximum.y << std::endl;
 }
 
 void Basic2DP::process_shape_collision() {
