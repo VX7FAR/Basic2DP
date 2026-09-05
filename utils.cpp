@@ -2,20 +2,20 @@
 #include <SFML/graphics.hpp>
 #include<vector>
 
-objectbody make_objectbody(float radius, sf::Vector2f position, sf::Color clr, float mass) {
+objectbody make_objectbody(float radius, sf::Vector2f current_position, sf::Color clr, float co_e, float mass) {
 	sf::CircleShape circle(radius);
-	circle.setPosition(position);
+	circle.setPosition(current_position);
 	circle.setOrigin({ radius, radius });
 	circle.setFillColor(clr);
 	objectbody obj;
 	obj.body_shape = new sf::CircleShape(circle);
 	obj.radius = radius;
 	obj.mass = mass;
-	obj.position.x = circle.getPosition().x;
-	obj.position.y = circle.getPosition().y;
+	obj.current_position.x = circle.getPosition().x;
+	obj.current_position.y = circle.getPosition().y;
 	obj.velocity.x = 0.0;
 	obj.velocity.y = 0.0;
-	obj.e = 1.0;
+	obj.e = co_e;
 	return obj;
 }
 

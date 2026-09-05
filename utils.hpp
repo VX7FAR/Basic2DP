@@ -7,9 +7,13 @@ struct objectbody {
 	float mass;
 	float e;
 
+	bool hitx = false;
+	bool hity = false;
+
 	sf::Vector2f velocity;
 
-	sf::Vector2f position;
+	sf::Vector2f current_position;
+	sf::Vector2f predicted_position;
 };
 
 struct vector_scalar_pair {
@@ -17,7 +21,7 @@ struct vector_scalar_pair {
 	float scalar;
 };
 
-objectbody make_objectbody(float radius, sf::Vector2f position = { 0.0,0.0 }, sf::Color clr = sf::Color::Red, float mass = 1);
+objectbody make_objectbody(float radius, sf::Vector2f current_current_position = { 0.0,0.0 }, sf::Color clr = sf::Color::Red,float co_e=1.0, float mass = 1);
 
 sf::RenderWindow windowmaker();
 
