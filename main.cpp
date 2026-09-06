@@ -36,7 +36,7 @@ int main() {
 	bodies_list.push_back(make_objectbody(20.0, { 0.0, 0.0 }, sf::Color::Red, 0.7));
 	bodies_list.push_back(make_objectbody(20.0, { 0.0, 0.0 }, sf::Color::Red, 0.64));
 	bodies_list.push_back(make_objectbody(20.0, { 0.0, 0.0 }, sf::Color::Red, 0.8));
-	basic2dp_manager.update_velocity({ -200.0f, 100.0f }, false, false, &bodies_list[0]);
+	basic2dp_manager.update_velocity({ -1200.0f, 600.0f }, false, false, &bodies_list[0]);
 	basic2dp_manager.update_velocity({ 200.0f, -180.0f }, false, false, &bodies_list[1]);
 	basic2dp_manager.update_velocity({ 147.0f, 150.0f }, false, false, &bodies_list[2]);
 	basic2dp_manager.update_velocity({ 40.0f, 70.0f }, false, false, &bodies_list[3]);

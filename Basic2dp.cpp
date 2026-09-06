@@ -90,11 +90,6 @@ void Basic2DP::process_shape_collision() {
 
 					a.velocity = a.velocity + (impulse * collision_normal) / a.mass;
 					b.velocity = b.velocity - (impulse * collision_normal) / b.mass;
-
-					/*std::cout << "Mass: " << a.mass << " | " << b.mass;
-					std::cout << "Mass: " << a.mass << " | " << b.mass;
-					std::cout << "Mass: " << a.mass << " | " << b.mass;
-					std::cout << "Mass: " << a.mass << " | " << b.mass;*/
 				}
 
 			}
@@ -160,15 +155,18 @@ void Basic2DP::process_movement() {
 	for (objectbody& body : obj_list) {
 		if (body.hitx) {
 			body.current_position.x = body.predicted_position.x;
+			body.displace = false;
 		}
 		if (body.hity) {
 			body.current_position.y = body.predicted_position.y;
+			body.displace = false;
 		}
-		else
+		if(body.displace)
 		{
 			body.velocity += gravity * delta_T;
 			body.current_position += body.velocity * delta_T;
 		}
 		body.body_shape->setPosition(body.current_position);
+		body.displace = true;
 	}
 }

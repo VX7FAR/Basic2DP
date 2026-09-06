@@ -9,6 +9,7 @@ struct objectbody {
 
 	bool hitx = false;
 	bool hity = false;
+	bool displace = true;
 
 	sf::Vector2f velocity;
 
