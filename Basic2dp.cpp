@@ -41,7 +41,7 @@ void Basic2DP::process_wall_collision() {
 		}
 		else
 		{
-			body.velocity.x *= -1;
+			body.velocity.x *= -1 * body.e;
 			body.hitx = false;
 		}
 		if (!body.hity) {
@@ -58,7 +58,7 @@ void Basic2DP::process_wall_collision() {
 		}
 		else
 		{
-			body.velocity.y *= -1;
+			body.velocity.y *= -1 * body.e;
 			body.hity = false;
 		}
 	}
@@ -169,4 +169,8 @@ void Basic2DP::process_movement() {
 		body.body_shape->setPosition(body.current_position);
 		body.displace = true;
 	}
+}
+
+void Editor::process_String(std::string str) {
+
 }

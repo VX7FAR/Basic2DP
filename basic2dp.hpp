@@ -2,11 +2,12 @@
 #include<SFML/graphics.hpp>
 #include<vector>
 #include "utils.hpp"
+#include <string>	
 
 class Basic2DP{
+public:
 	sf::RenderWindow& window;
 	std::vector<objectbody>& obj_list;
-public:
 	sf::Vector2f gravity;
 	float& delta_T;
 
@@ -27,4 +28,13 @@ public:
 	void wall_collision_corrector(objectbody &body, sf::Vector2f predicted_pos);
 
 	void process_movement();
+};
+
+class Editor {
+public:
+	Basic2DP& basic;
+
+	Editor(Basic2DP& bdp) : basic(bdp){}
+
+	void process_String(std::string str);
 };
