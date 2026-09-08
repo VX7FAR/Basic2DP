@@ -8,8 +8,31 @@ acceleration due to gravity, g = 980.665 cm/s^2
 #include<math.h>
 #include "utils.hpp"
 #include "basic2dp.hpp"
+#include <string>
+#include<thread>
+#include<atomic>
 using namespace std;
 
+atomic<bool> exit_cmd = false;
+
+void INPUT() {
+	string a;
+	while (true) {
+		cin >> a;
+		if (a == "1") {
+			cout << "one" << endl;
+		}
+		else if (a == "2")
+		{
+			cout << "two" << endl;
+		}
+		else
+		{
+			exit_cmd = true;
+			break;
+		}
+	}
+}
 
 int main() {
 	int pause;
@@ -21,6 +44,7 @@ int main() {
 	sf::Vector2f gravity = { 0.0,-980.0};
 	vector<objectbody> bodies_list;
 	sf::RenderWindow window = windowmaker();
+	
 	Basic2DP basic2dp_manager(window, bodies_list, gravity, dt);
 
 
@@ -42,12 +66,15 @@ int main() {
 	basic2dp_manager.update_velocity({ 40.0f, 70.0f }, false, false, &bodies_list[3]);
 	basic2dp_manager.update_velocity({ 9.0f, -110.0f }, false, false, &bodies_list[4]);
 					 
-	while (window.isOpen()) {
+	thread input_processor(INPUT);
+
+	while (window.isOpen() && !exit_cmd) {
 		window.clear();
 		dt = (float)clock.restart().asMilliseconds() / 1000.0;
 		while (const std::optional event = window.pollEvent()) {
 			if (event->is<sf::Event::Closed>()) { window.close(); }
 		}
+
 
 		if (bodies_list.size() > 0) {basic2dp_manager.process_shape_collision(); }
 		basic2dp_manager.process_movement();
@@ -56,4 +83,6 @@ int main() {
 		basic2dp_manager.draw_bodies();
 		window.display();
 	}
+
+	input_processor.join();
 }

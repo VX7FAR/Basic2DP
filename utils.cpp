@@ -21,7 +21,7 @@ objectbody make_objectbody(float radius, sf::Vector2f current_position, sf::Colo
 
 sf::RenderWindow windowmaker() {
 	sf::View view;
-	sf::RenderWindow window(sf::VideoMode({ 840,640 }), "adad");
+	sf::RenderWindow window(sf::VideoMode({ 840,640 }), "Basic2DP", sf::Style::None);
 	window.setFramerateLimit(60);
 	view.setSize({ 840,-640 });
 	view.setCenter({ 0,0 });

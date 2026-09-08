@@ -84,7 +84,6 @@ void Basic2DP::process_shape_collision() {
 				collision_normal = { distance.distance_vector.x / distance.scalar, distance.distance_vector.y / distance.scalar };
 
 				if (a.radius + b.radius > distance.scalar && dotproduct(relative_Velocity, collision_normal) > 0) {
-					std::cout << "hit" << std::endl;
 					velocity_component = (a.e + b.e) * dotproduct(relative_Velocity, collision_normal);
 					impulse = velocity_component / ((1 / a.mass) + (1 / b.mass));
 
