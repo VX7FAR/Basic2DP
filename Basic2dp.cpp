@@ -1,6 +1,7 @@
 #include<SFML/Graphics.hpp>
 #include<vector>
 #include<iostream>
+#include<sstream>
 #include "basic2dp.hpp"
 #include "utils.hpp"
 
@@ -170,6 +171,66 @@ void Basic2DP::process_movement() {
 	}
 }
 
-void Editor::process_String(std::string str) {
+std::vector<std::string> Editor::parse(std::string str) {
+	std::vector<std::string> tokens;
+	std::string token;
+	size_t index = 0;
+	std::stringstream ss(str);
 
+	while (std::getline(ss, token, ' ')) {
+		tokens.push_back(token);
+	}
+
+	return tokens;
+}
+
+void Editor::getinfo() {
+	std::cout << "Display Size: " << basic.window.getSize().x << "x" << basic.window.getSize().y << std::endl;
+	std::cout << "Framerate: " << 1 / basic.delta_T << std::endl;
+	std::cout << "g: [" << basic.gravity.x << ", " << basic.gravity.y << "]" << std::endl;
+	std::cout << "Number of bodies: " << basic.obj_list.size() << std::endl;
+}
+
+void Editor::set_theme(size_t set_to) {
+	if (set_to < theme_list.size()) {
+		Theme thm = theme_list[set_to];
+		border.setFillColor(thm.background);
+		border.setOutlineColor(thm.border);
+		for (objectbody obj : basic.obj_list) {
+			obj.body_shape->setFillColor(thm.shape_clr);
+		}
+	}
+}
+
+void Editor::add_theme(std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape) {
+	bool exists = false;
+	sf::Color defaultclr(255, 255, 255);
+	for (Theme t : theme_list) {
+		if (t.name == name) exists = true;
+	}
+	if (exists) {
+		std::cout << "Theme already exists" << std::endl;
+	}
+	else
+	{
+		Theme newtheme;
+		newtheme.name = name;
+		if (is_valid_colour(bg)) {
+			sf::Color clr(bg.x, bg.y, bg.z);
+			newtheme.background = clr;
+		}
+		else { newtheme.background = sf::Color::White; }
+		if (is_valid_colour(border)) {
+			sf::Color clr(border.x, border.y, border.z);
+			newtheme.border = clr;
+		}
+		else { newtheme.border = sf::Color::White; }
+		if (is_valid_colour(shape)) {
+			sf::Color clr(shape.x, shape.y, shape.z);
+			newtheme.shape_clr = clr;
+		}
+		else { newtheme.shape_clr = sf::Color::White; }
+	
+		theme_list.push_back(newtheme);
+	}
 }

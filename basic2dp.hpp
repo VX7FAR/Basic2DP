@@ -32,9 +32,17 @@ public:
 
 class Editor {
 public:
+	std::vector<Theme> theme_list;
 	Basic2DP& basic;
+	sf::RectangleShape& border;
 
-	Editor(Basic2DP& bdp) : basic(bdp){}
+	Editor(Basic2DP& bdp, sf::RectangleShape& rec) : basic(bdp), border(rec){}
 
-	void process_String(std::string str);
+	std::vector<std::string> parse(std::string str);
+
+	void set_theme(size_t set_to);
+
+	void add_theme(std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape = {260,260,260});
+
+	void getinfo();
 };

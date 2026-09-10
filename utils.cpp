@@ -37,6 +37,36 @@ vector_scalar_pair find_distance(sf::Shape* shp1, sf::Shape* shp2) {
 	return pair;
 }
 
+bool stob(std::string s, std::string t_con, std::string f_con) {
+	if (t_con == f_con) {
+		return true;
+	}
+	else if (s == "true" || s == "1" || s == t_con) {
+		return true;
+	}
+	else if (s == "false" || s == "0" || s == f_con) {
+		return false;
+	}
+}
+
 float dotproduct(sf::Vector2f a, sf::Vector2f b) {
 	return (a.x * b.x) + (a.y * b.y);
+}
+
+bool is_valid_colour(sf::Vector3u clr) {
+	if (clr.x > 255 || clr.x < 0) {
+		return false;
+	}
+	else if(clr.y > 255 ||clr.y < 0)
+	{
+		return false;
+	}
+	else if (clr.z > 255 || clr.z < 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
