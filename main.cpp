@@ -12,6 +12,7 @@ acceleration due to gravity, g = 980.665 cm/s^2
 #include<thread>
 #include<atomic>
 #include <exception>
+#include<filesystem>
 using namespace std;
 
 atomic<bool> exit_requested = false;
@@ -22,19 +23,9 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 	string str;
 	Editor cli(b, border);
 
-	cli.add_theme("Midnight", { 15, 18, 30 }, { 60, 70, 100 }, { 100, 150, 255 });
-	cli.add_theme("Forest", { 20, 35, 25 }, { 70, 110, 75 }, { 100, 200, 120 });
-	cli.add_theme("Sunset", { 45, 20, 20 }, { 150, 70, 50 }, { 255, 140, 70 });
-	cli.add_theme("Ocean", { 15, 35, 50 }, { 50, 110, 140 }, { 80, 200, 220 });
-	cli.add_theme("Monochrome", { 25, 25, 25 }, { 100, 100, 100 }, { 220, 220, 220 });	
-	cli.add_theme("Neon Arctic", { 144, 221, 240 }, { 10, 9, 12 }, { 44, 102, 110 });
-	cli.add_theme("Lavender Cream", { 255, 251, 219 }, { 119, 118, 188 }, { 255, 103, 77 });
-	cli.add_theme("Moss Harbor", { 170, 174, 142 }, { 58, 96, 110 }, { 96, 123, 125 });
-	cli.add_theme("Lavender", { 226, 173, 242 }, { 101, 69, 151	}, { 171, 129, 205 });
-	cli.add_theme("Rose Night", { 248, 199, 204 }, { 14, 15, 25 }, { 70, 96, 96 });
+	cli.themeget_iterator();
 
-	cli.set_theme(4);
-
+	//cli.set_theme(4);
 	vector<string> tokens;
 
 	try {
@@ -123,7 +114,7 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 					shape = { clr[0], clr[1], clr[2] };
 					clr.clear();
 
-					cli.add_theme(name, bg, border, shape);
+					cli.add_theme(false, name, bg, border, shape);
 				}
 			}
 			else

@@ -53,20 +53,21 @@ float dotproduct(sf::Vector2f a, sf::Vector2f b) {
 	return (a.x * b.x) + (a.y * b.y);
 }
 
-bool is_valid_colour(sf::Vector3u clr) {
+void correct_colour(sf::Vector3u& clr) {
 	if (clr.x > 255 || clr.x < 0) {
-		return false;
+		clr.x = 255;
 	}
-	else if(clr.y > 255 ||clr.y < 0)
+	if(clr.y > 255 ||clr.y < 0)
 	{
-		return false;
+		clr.y = 255;
 	}
-	else if (clr.z > 255 || clr.z < 0)
+	if (clr.z > 255 || clr.z < 0)
 	{
-		return false;
+		clr.z = 255;
 	}
-	else
-	{
-		return true;
-	}
+}
+
+std::string filename_to_name(std::string filename) {
+	filename.erase(filename.size() - 4);
+	return filename;
 }

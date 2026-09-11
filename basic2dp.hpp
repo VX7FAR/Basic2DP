@@ -3,6 +3,7 @@
 #include<vector>
 #include "utils.hpp"
 #include <string>	
+#include <filesystem>
 
 class Basic2DP{
 public:
@@ -42,7 +43,9 @@ public:
 
 	void set_theme(size_t set_to);
 
-	void add_theme(std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape = {260,260,260});
+	void add_theme(bool init, std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape = {260,260,260});
 
 	void getinfo();
+
+	void themeget_iterator(std::filesystem::path directorypath = "C:\\theme");
 };

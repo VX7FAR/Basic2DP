@@ -1,5 +1,7 @@
 #pragma once
 #include<SFML/Graphics.hpp>
+#include<filesystem>
+#include <string>
 
 struct objectbody {
 	sf::Shape* body_shape;
@@ -39,4 +41,6 @@ bool stob(std::string s, std::string t_con = "true", std::string f_con = "false"
 
 float dotproduct(sf::Vector2f a, sf::Vector2f b);
 
-bool is_valid_colour(sf::Vector3u clr);
+void correct_colour(sf::Vector3u& clr);
+
+std::string filename_to_name(std::string filename);
