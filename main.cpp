@@ -22,16 +22,20 @@ atomic<bool> info_requested = false;
 void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 	string str;
 	Editor cli(b, border);
-
-	cli.themeget_iterator();
-
-	//cli.set_theme(4);
 	vector<string> tokens;
 
 	try {
+
+		filesystem::path theme_dir = filesystem::current_path() / "Basic2DPThemes";
+		filesystem::create_directories(theme_dir);
+		cli.themeget_iterator(theme_dir);
+
 		while (true) {
+			std::cout << "\033[93m";
+			std::cout << ">  ";
 			std::getline(cin, str);
 			tokens = cli.parse(str);
+			std::cout << "\033[96m";
 
 			if (tokens[0] == "exit" || tokens[0] == "e") {
 				exit_requested = true;
@@ -83,10 +87,12 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 			}
 			else if (tokens[0] == "addtheme") {
 				bool exists = false;
-				string name, temp; 
+				string name, temp;
 				sf::Vector3u bg, border, shape;
 				vector<unsigned> clr;
-				std::cout << "Name: "; std::getline(cin, name);
+				std::cout << "Name: ";
+				std::cout << "\033[94m";
+				std::getline(cin, name);
 				for (Theme t : cli.theme_list) {
 					if (t.name == name) {
 						exists = true;
@@ -94,25 +100,32 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 						break;
 					}
 				}
+				std::cout << "\033[96m";
 
 				if (!exists) {
 					std::cout << "Background Colour: ";
+					std::cout << "\033[94m";
 					std::getline(cin, temp);
 					clr.push_back(stoi(cli.parse(temp)[0])); clr.push_back(stoi(cli.parse(temp)[1])); clr.push_back(stoi(cli.parse(temp)[2]));
 					bg = { clr[0], clr[1], clr[2] };
 					clr.clear();
+					std::cout << "\033[96m";
 
 					std::cout << "Border Colour: ";
+					std::cout << "\033[94m";
 					std::getline(cin, temp);
 					clr.push_back(stoi(cli.parse(temp)[0])); clr.push_back(stoi(cli.parse(temp)[1])); clr.push_back(stoi(cli.parse(temp)[2]));
 					border = { clr[0], clr[1], clr[2] };
 					clr.clear();
+					std::cout << "\033[96m";
 
 					std::cout << "Shape Colour: ";
+					std::cout << "\033[94m";
 					std::getline(cin, temp);
 					clr.push_back(stoi(cli.parse(temp)[0])); clr.push_back(stoi(cli.parse(temp)[1])); clr.push_back(stoi(cli.parse(temp)[2]));
 					shape = { clr[0], clr[1], clr[2] };
 					clr.clear();
+					std::cout << "\033[96m";
 
 					cli.add_theme(false, name, bg, border, shape);
 				}
@@ -123,62 +136,70 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 			}
 		}
 	}
-	catch (const std::invalid_argument&) { std::cout << "Invalid argument for " << tokens[0] << endl; }
+	catch (exception& e) {
+		std::cout << "In f{INPUT} -> " << e.what() << std::endl;
+	}
 }
 
 int main() {
-	int pause;
-	//cin >> pause;
+	try {
+		int pause;
+		//cin >> pause;
 
-	sf::Clock clock;
-	float dt = 0;
+		sf::Clock clock;
+		float dt = 0;
 
-	sf::Vector2f gravity = { 0.0,-980.0};
-	vector<objectbody> bodies_list;
-	sf::RenderWindow window = windowmaker();
-	
-	Basic2DP basic2dp_manager(window, bodies_list, gravity, dt);
+		sf::Vector2f gravity = { 0.0,-980.0 };
+		vector<objectbody> bodies_list;
+		sf::RenderWindow window = windowmaker();
 
-	sf::RectangleShape border({ 840,640 });
-	border.setFillColor(sf::Color::Transparent);
-	border.setOrigin(sf::Vector2f{ 420.0 ,320.0});
-	border.setOutlineThickness(-20);
-	border.setOutlineColor(sf::Color::Red);
+		Basic2DP basic2dp_manager(window, bodies_list, gravity, dt);
+
+		sf::RectangleShape border({ 840,640 });
+		border.setFillColor(sf::Color::Transparent);
+		border.setOrigin(sf::Vector2f{ 420.0 ,320.0 });
+		border.setOutlineThickness(-20);
+		border.setOutlineColor(sf::Color::Red);
 
 
-	for (int i = 0; i < 5; i++) {
-		bodies_list.push_back(make_objectbody(5.0, { 200.0, -100.0 }, sf::Color::Blue, 0.8));
+		for (int i = 0; i < 5; i++) {
+			bodies_list.push_back(make_objectbody(5.0, { 200.0, -100.0 }, sf::Color::Blue, 0.8));
 
-	}
-
-	basic2dp_manager.update_velocity({ -1200.0f, 600.0f }, false, false, &bodies_list[0]);
-	basic2dp_manager.update_velocity({ 200.0f, -180.0f }, false, false, &bodies_list[1]);
-	basic2dp_manager.update_velocity({ 147.0f, 150.0f }, false, false, &bodies_list[2]);
-	basic2dp_manager.update_velocity({ 40.0f, 70.0f }, false, false, &bodies_list[3]);
-	basic2dp_manager.update_velocity({ 9.0f, -110.0f }, false, false, &bodies_list[4]);
-					 
-	thread input_processor(INPUT, ref(basic2dp_manager), ref(border));
-
-	while (window.isOpen()) {
-		if (exit_requested) {
-			window.close();
-			break;
 		}
 
-		window.clear();
-		dt = (float)clock.restart().asMilliseconds() / 1000.0;
-		while (const std::optional event = window.pollEvent()) {
-			if (event->is<sf::Event::Closed>()) { window.close(); }
+		basic2dp_manager.update_velocity({ -1200.0f, 600.0f }, false, false, &bodies_list[0]);
+		basic2dp_manager.update_velocity({ 200.0f, -180.0f }, false, false, &bodies_list[1]);
+		basic2dp_manager.update_velocity({ 147.0f, 150.0f }, false, false, &bodies_list[2]);
+		basic2dp_manager.update_velocity({ 40.0f, 70.0f }, false, false, &bodies_list[3]);
+		basic2dp_manager.update_velocity({ 9.0f, -110.0f }, false, false, &bodies_list[4]);
+
+		thread input_processor(INPUT, ref(basic2dp_manager), ref(border));
+
+		while (window.isOpen()) {
+			if (exit_requested) {
+				window.close();
+				break;
+			}
+
+			window.clear();
+			dt = (float)clock.restart().asMilliseconds() / 1000.0;
+			while (const std::optional event = window.pollEvent()) {
+				if (event->is<sf::Event::Closed>()) { window.close(); }
+			}
+
+
+			if (bodies_list.size() > 0) { basic2dp_manager.process_shape_collision(); }
+			basic2dp_manager.process_movement();
+			window.draw(border);
+			basic2dp_manager.process_wall_collision();
+			basic2dp_manager.draw_bodies();
+			window.display();
 		}
 
-
-		if (bodies_list.size() > 0) {basic2dp_manager.process_shape_collision(); }
-		basic2dp_manager.process_movement();
-		window.draw(border);
-		basic2dp_manager.process_wall_collision();
-		basic2dp_manager.draw_bodies();
-		window.display();
+		input_processor.join();
+	}
+	catch (exception& e) {
+		cout << "Err in main()" << e.what() << endl;
 	}
 
-	input_processor.join();
 }

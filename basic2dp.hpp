@@ -36,6 +36,7 @@ public:
 	std::vector<Theme> theme_list;
 	Basic2DP& basic;
 	sf::RectangleShape& border;
+	std::filesystem::path thm;
 
 	Editor(Basic2DP& bdp, sf::RectangleShape& rec) : basic(bdp), border(rec){}
 
@@ -47,5 +48,5 @@ public:
 
 	void getinfo();
 
-	void themeget_iterator(std::filesystem::path directorypath = "C:\\theme");
+	void themeget_iterator(std::filesystem::path dir);
 };

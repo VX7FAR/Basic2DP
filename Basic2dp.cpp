@@ -6,6 +6,7 @@
 #include "utils.hpp"
 #include<filesystem>
 #include <fstream>
+#include<exception>
 
 void Basic2DP::draw_bodies() {
 	for (objectbody& body : obj_list) {
@@ -187,10 +188,12 @@ std::vector<std::string> Editor::parse(std::string str) {
 }
 
 void Editor::getinfo() {
-	std::cout << "Display Size: " << basic.window.getSize().x << "x" << basic.window.getSize().y << std::endl;
-	std::cout << "Framerate: " << 1 / basic.delta_T << std::endl;
-	std::cout << "g: [" << basic.gravity.x << ", " << basic.gravity.y << "]" << std::endl;
-	std::cout << "Number of bodies: " << basic.obj_list.size() << std::endl;
+	std::cout << "Display Size: " << "\033[92m" << basic.window.getSize().x << "x" << basic.window.getSize().y << "\033[96m" << std::endl;
+	std::cout << "Framerate: " << "\033[92m" << 1 / basic.delta_T << "\033[96m" << std::endl;
+	std::cout << "g: " << "\033[92m" << "[" << basic.gravity.x << ", " << basic.gravity.y << "]" << "\033[96m" << std::endl;
+	std::cout << "Number of bodies: " << "\033[92m" << basic.obj_list.size() << "\033[96m" << std::endl;
+	std::cout << "Theme Folder: " << "\033[92m" << thm.string() << "\033[96m" << std::endl;
+	std::cout << "No. of Themes: " << "\033[92m" << theme_list.size() << "\033[96m" << std::endl;
 }
 
 void Editor::set_theme(size_t set_to) {
@@ -204,73 +207,78 @@ void Editor::set_theme(size_t set_to) {
 	}
 }
 
-void Editor::add_theme(bool init, std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape) {
-	bool exists = false;
-	sf::Color defaultclr(255, 255, 255);
-	for (Theme t : theme_list) {
-		if (t.name == name) exists = true;
-	}
-	if (exists) {
-		std::cout << "Theme already exists" << std::endl;
-	}
-	else
-	{
-		Theme newtheme;
-		newtheme.name = name;
-		correct_colour(bg);
-		sf::Color back(bg.x,bg.y,bg.z);
-		newtheme.background = back;
-		correct_colour(border);
-		sf::Color bord(border.x, border.y, border.z);
-		newtheme.border = bord;
-		correct_colour(shape);
-		sf::Color shp(shape.x, shape.y, shape.z);
-		newtheme.shape_clr = shp;
-
-		theme_list.push_back(newtheme);
-
-		if (!init) {
-			std::fstream write;
-			write.open("C:\\theme\\" + name + ".thm", std::ios::out);
-
-			write << bg.x << " " << bg.y << " " << bg.z << " ";
-			write << border.x << " " << border.y << " " << border.z << " ";
-			write << shape.x << " " << shape.y << " " << shape.z << " ";
+void Editor::add_theme(bool readonly, std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape) {
+	try {
+		bool exists = false;
+		sf::Color defaultclr(255, 255, 255);
+		for (Theme t : theme_list) {
+			if (t.name == name) exists = true;
 		}
+		if (exists) {
+			std::cout << "Theme already exists" << std::endl;
+		}
+		else
+		{
+			Theme newtheme;
+			newtheme.name = name;
+			correct_colour(bg);
+			sf::Color back(bg.x, bg.y, bg.z);
+			newtheme.background = back;
+			correct_colour(border);
+			sf::Color bord(border.x, border.y, border.z);
+			newtheme.border = bord;
+			correct_colour(shape);
+			sf::Color shp(shape.x, shape.y, shape.z);
+			newtheme.shape_clr = shp;
+
+			theme_list.push_back(newtheme);
+
+			if (!readonly) {
+				std::fstream write;
+				write.open(thm.string() + "\\" + name + ".thm", std::ios::out);
+
+				write << bg.x << " " << bg.y << " " << bg.z << " ";
+				write << border.x << " " << border.y << " " << border.z << " ";
+				write << shape.x << " " << shape.y << " " << shape.z << " ";
+			}
+		}
+	}
+	catch (std::exception& e) {
+		std::cout << "Editor::add_theme -> " << e.what() << std::endl;
 	}
 }
 
-void Editor::themeget_iterator(std::filesystem::path directorypath) {
-	for (const auto& file : std::filesystem::directory_iterator(directorypath)) {
-		if (file.path().extension() == ".thm") {
-			std::string s;
-			std::fstream themefile;
+void Editor::themeget_iterator(std::filesystem::path dir) {
+	try {
+		thm = dir;
+		for (const auto& file : std::filesystem::directory_iterator(dir)) {
+			if (file.path().extension() == ".thm") {
+				std::string s;
+				std::fstream themefile;
 
-			std::vector<unsigned> clr;
-			themefile.open(file.path());
-			if (themefile.is_open()) {
-				std::string filename = filename_to_name(file.path().filename().string());
-				std::getline(themefile, s);
-				std::vector<std::string> code = parse(s);
-				sf::Vector3u bg, border, shape;	std::cout << "Parsed" << std::endl;
+				std::vector<unsigned> clr;
+				themefile.open(file.path());
+				if (themefile.is_open()) {
+					std::string filename = filename_to_name(file.path().filename().string());
+					std::getline(themefile, s);
+					std::vector<std::string> code = parse(s);
+					sf::Vector3u bg, border, shape;
 
-				for (std::string s : code) {
-					std::cout << s << std::endl;
+					clr.push_back(stoi(code[0])); clr.push_back(stoi(code[1])); clr.push_back(stoi(code[2]));
+					bg = { clr[0], clr[1], clr[2] };
+					clr.clear();
+					clr.push_back(stoi(code[3])); clr.push_back(stoi(code[4])); clr.push_back(stoi(code[5]));
+					border = { clr[0], clr[1], clr[2] };
+					clr.clear();
+					clr.push_back(stoi(code[6])); clr.push_back(stoi(code[7])); clr.push_back(stoi(code[8]));
+					shape = { clr[0], clr[1], clr[2] };
+					clr.clear();
+					add_theme(true, filename, bg, border, shape);
 				}
-
-				clr.push_back(stoi(code[0])); clr.push_back(stoi(code[1])); clr.push_back(stoi(code[2]));
-				bg = { clr[0], clr[1], clr[2] };
-				clr.clear();
-				clr.push_back(stoi(code[3])); clr.push_back(stoi(code[4])); clr.push_back(stoi(code[5]));
-				border = { clr[0], clr[1], clr[2] };
-				clr.clear();
-				clr.push_back(stoi(code[6])); clr.push_back(stoi(code[7])); clr.push_back(stoi(code[8]));
-				shape = { clr[0], clr[1], clr[2] };
-				clr.clear();
-				std::cout << "Done parsing" << std::endl;
-				add_theme(true, filename, bg, border, shape);
-				std::cout << "Done adding" << std::endl;
 			}
 		}
+	}
+	catch (std::exception& e) {
+		std::cout << "Editor::themeget_iterator -> " << e.what() << std::endl;
 	}
 }
