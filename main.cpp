@@ -1,24 +1,21 @@
 //1m = 100units (pixels)
-/*
-acceleration due to gravity, g = 980.665 cm/s^2
-*/
+
 #include <SFML/Graphics.hpp>
-#include<iostream>
-#include<vector>
-#include<math.h>
+#include <iostream>
+#include <vector>
+#include <math.h>
 #include "utils.hpp"
 #include "basic2dp.hpp"
 #include <string>
-#include<thread>
-#include<atomic>
+#include <thread>
+#include <atomic>
 #include <exception>
-#include<filesystem>
 using namespace std;
 
 atomic<bool> exit_requested = false;
 atomic<bool> info_requested = false;
-//atomic<vector<string>> input;
 
+//Seperate thread for CLI
 void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 	string str;
 	Editor cli(b, border);
@@ -29,6 +26,7 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 		filesystem::path theme_dir = filesystem::current_path() / "Basic2DPThemes";
 		filesystem::create_directories(theme_dir);
 		cli.themeget_iterator(theme_dir);
+
 
 		while (true) {
 			std::cout << "\033[93m";
@@ -143,27 +141,28 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 
 int main() {
 	try {
-		int pause;
-		//cin >> pause;
-
 		sf::Clock clock;
 		float dt = 0;
 
-		sf::Vector2f gravity = { 0.0,-980.0 };
+		sf::Vector2f gravity = { 0.0,0.0 };
 		vector<objectbody> bodies_list;
 		sf::RenderWindow window = windowmaker();
+
+		sf::Color bg(15,18,30);
+		sf::Color bord(60,70,100);
+		sf::Color shp(100,150,255);
 
 		Basic2DP basic2dp_manager(window, bodies_list, gravity, dt);
 
 		sf::RectangleShape border({ 840,640 });
-		border.setFillColor(sf::Color::Transparent);
+		border.setFillColor(bg);
 		border.setOrigin(sf::Vector2f{ 420.0 ,320.0 });
 		border.setOutlineThickness(-20);
-		border.setOutlineColor(sf::Color::Red);
+		border.setOutlineColor(bord);
 
 
 		for (int i = 0; i < 5; i++) {
-			bodies_list.push_back(make_objectbody(5.0, { 200.0, -100.0 }, sf::Color::Blue, 0.8));
+			bodies_list.push_back(make_objectbody(5.0, { 200.0, -100.0 }, shp, 0.8));
 
 		}
 
@@ -173,7 +172,7 @@ int main() {
 		basic2dp_manager.update_velocity({ 40.0f, 70.0f }, false, false, &bodies_list[3]);
 		basic2dp_manager.update_velocity({ 9.0f, -110.0f }, false, false, &bodies_list[4]);
 
-		thread input_processor(INPUT, ref(basic2dp_manager), ref(border));
+		thread input_processor(INPUT, ref(basic2dp_manager), ref(border));	//Thread started here
 
 		while (window.isOpen()) {
 			if (exit_requested) {
@@ -199,7 +198,7 @@ int main() {
 		input_processor.join();
 	}
 	catch (exception& e) {
-		cout << "Err in main()" << e.what() << endl;
+		cout << "Err in main() -> " << e.what() << endl;
 	}
 
 }

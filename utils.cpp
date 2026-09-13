@@ -1,6 +1,6 @@
 #include "utils.hpp"
 #include <SFML/graphics.hpp>
-#include<vector>
+#include <vector>
 
 objectbody make_objectbody(float radius, sf::Vector2f current_position, sf::Color clr, float co_e, float mass) {
 	sf::CircleShape circle(radius);

@@ -1,12 +1,12 @@
-#include<SFML/Graphics.hpp>
-#include<vector>
-#include<iostream>
-#include<sstream>
+#include <SFML/Graphics.hpp>
+#include <vector>
+#include <iostream>
+#include <sstream>
 #include "basic2dp.hpp"
 #include "utils.hpp"
-#include<filesystem>
+#include <filesystem>
 #include <fstream>
-#include<exception>
+#include <exception>
 
 void Basic2DP::draw_bodies() {
 	for (objectbody& body : obj_list) {

@@ -1,10 +1,11 @@
 #pragma once
-#include<SFML/graphics.hpp>
-#include<vector>
+#include <SFML/graphics.hpp>
+#include <vector>
 #include "utils.hpp"
 #include <string>	
 #include <filesystem>
 
+//Manages main processing task related to collision, physics and graphics
 class Basic2DP{
 public:
 	sf::RenderWindow& window;
@@ -31,12 +32,13 @@ public:
 	void process_movement();
 };
 
+//Manages input from terminal
 class Editor {
 public:
 	std::vector<Theme> theme_list;
 	Basic2DP& basic;
 	sf::RectangleShape& border;
-	std::filesystem::path thm;
+	std::filesystem::path thm;	//Stores folder location of themes
 
 	Editor(Basic2DP& bdp, sf::RectangleShape& rec) : basic(bdp), border(rec){}
 
@@ -47,6 +49,6 @@ public:
 	void add_theme(bool init, std::string name, sf::Vector3u bg, sf::Vector3u border, sf::Vector3u shape = {260,260,260});
 
 	void getinfo();
-
+	//Fetches themes from folder at beginning of code
 	void themeget_iterator(std::filesystem::path dir);
 };
