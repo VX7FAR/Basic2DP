@@ -198,11 +198,11 @@ void Editor::getinfo() {
 
 void Editor::set_theme(size_t set_to) {
 	if (set_to < theme_list.size()) {
-		Theme thm = theme_list[set_to];
-		border.setFillColor(thm.background);
-		border.setOutlineColor(thm.border);
+		current_theme = theme_list[set_to];
+		border.setFillColor(current_theme.background);
+		border.setOutlineColor(current_theme.border);
 		for (objectbody obj : basic.obj_list) {
-			obj.body_shape->setFillColor(thm.shape_clr);
+			obj.body_shape->setFillColor(current_theme.shape_clr);
 		}
 	}
 }

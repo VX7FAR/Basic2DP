@@ -15,17 +15,24 @@ using namespace std;
 atomic<bool> exit_requested = false;
 atomic<bool> info_requested = false;
 
+sf::Color bg(15, 18, 30);
+sf::Color bord(60, 70, 100);
+sf::Color shp(100, 150, 255);
+
 //Seperate thread for CLI
 void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 	string str;
 	Editor cli(b, border);
 	vector<string> tokens;
 
-	try {
+	Theme t = { "", bg, bord, shp};
+	cli.current_theme = t;
 
+	try {
 		filesystem::path theme_dir = filesystem::current_path() / "Basic2DPThemes";
 		filesystem::create_directories(theme_dir);
 		cli.themeget_iterator(theme_dir);
+		std::cout << "\033[93m" <<"type 'help' to get help"<<endl;
 
 
 		while (true) {
@@ -39,6 +46,16 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 				exit_requested = true;
 				break;
 			}
+			else if (tokens[0] == "help") {
+				cout << "exit - exit the app" << endl;
+				cout << "getinfo - Shows information related to the app and physics" << endl;
+				cout << "setgravity - Changes gravity vector for the bodies: setgravity <x> <y>" << endl;
+				cout << "updatevelocity - Changes the velocity of object, increments by default: updatevelocity <x> <y> {increment|change}" << endl;
+				cout << "addbody - Adds new body into the window: addbody {radius} {x_position} {y_position}" << endl;
+				cout << "theme - shows the list of theme and sets the theme based on index: theme [theme_index_to_apply]" << endl;
+				cout << "addtheme - Used for adding a new theme" << endl;
+				cout << "!!! THIS WAS MADE SHORT FOR QUICK LOOKUP, FOR BETTER INFORMATION I SUGGEST READING THE GIVEN README.TXT OR CHECK OUT THE GUIDE SECTION IN GITHUB REPOSITORY. !!!" << endl;
+			}
 			else if (tokens[0] == "getinfo")
 			{
 				cli.getinfo();
@@ -47,11 +64,11 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 				sf::Vector2f g = { stof(tokens[1]), stof(tokens[2]) };
 				b.gravity = g;
 			}
-			else if (tokens[0] == "applyforce" && tokens.size() >= 3) {
-				tokens.resize(4);
-				sf::Vector2f F = { stof(tokens[1]) , stof(tokens[2]) };
-				b.apply_force(F, true, stob(tokens[3], "increment", "change"));
-			}
+			//else if (tokens[0] == "applyforce" && tokens.size() >= 3) {
+			//	tokens.resize(4);
+			//	sf::Vector2f F = { stof(tokens[1]) , stof(tokens[2]) };
+			//	b.apply_force(F, true, stob(tokens[3], "increment", "change"));
+			//}
 			else if (tokens[0] == "updatevelocity" && tokens.size() >= 3) {
 				tokens.resize(4);
 				sf::Vector2f V = { stof(tokens[1]) , stof(tokens[2]) };
@@ -67,7 +84,7 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 				}
 				else
 				{
-					b.obj_list.push_back(make_objectbody(5.0, { 0.0, 0.0 }, sf::Color::White, 0.8));
+					b.obj_list.push_back(make_objectbody(5.0, { 0.0, 0.0 }, cli.current_theme.shape_clr, 0.8));
 				}
 			}
 			else if (tokens[0] == "theme") {
@@ -148,9 +165,7 @@ int main() {
 		vector<objectbody> bodies_list;
 		sf::RenderWindow window = windowmaker();
 
-		sf::Color bg(15,18,30);
-		sf::Color bord(60,70,100);
-		sf::Color shp(100,150,255);
+
 
 		Basic2DP basic2dp_manager(window, bodies_list, gravity, dt);
 

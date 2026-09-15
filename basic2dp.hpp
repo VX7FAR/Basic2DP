@@ -36,6 +36,7 @@ public:
 class Editor {
 public:
 	std::vector<Theme> theme_list;
+	Theme current_theme;
 	Basic2DP& basic;
 	sf::RectangleShape& border;
 	std::filesystem::path thm;	//Stores folder location of themes
