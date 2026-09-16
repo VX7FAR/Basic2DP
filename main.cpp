@@ -54,7 +54,7 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 				cout << "addbody - Adds new body into the window: addbody {radius} {x_position} {y_position}" << endl;
 				cout << "theme - shows the list of theme and sets the theme based on index: theme [theme_index_to_apply]" << endl;
 				cout << "addtheme - Used for adding a new theme" << endl;
-				cout << "!!! THIS WAS MADE SHORT FOR QUICK LOOKUP, FOR BETTER INFORMATION I SUGGEST READING THE GIVEN README.TXT OR CHECK OUT THE GUIDE SECTION IN GITHUB REPOSITORY. !!!" << endl;
+				cout << "!!! THIS WAS MADE SHORT FOR QUICK LOOKUP, FOR BETTER INFORMATION I SUGGEST READING THE GIVEN README.html OR CHECK OUT THE GUIDE SECTION IN GITHUB REPOSITORY. (https://github.com/VX7FAR/Basic2DP#how-to-use) !!!" << endl;
 			}
 			else if (tokens[0] == "getinfo")
 			{

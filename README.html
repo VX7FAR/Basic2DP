@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<h1 id="basic2dp">BASIC2DP</h1>
+<p>Basic2DP is a 2D physics engine that can simulate collision, movement
+and force acting on a body. This engine is made as an intro towards
+physics and making graphics in computer programs. It is made in C++17
+and for graphics I used SFML(Simple and Fast Multimedia Library). This
+project only features translation of now but I might implement rotation
+with additional shapes in the future. The project comes with inbuilt 10
+themes to help you customize your experience.</p>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+<li><a href="#how-to-use">How to Use</a></li>
+<li><a href="#installation">Installation</a> ### What you can do as of
+now:</li>
+<li>Add shapes.</li>
+<li>Change velocity by incrementing or replacing the current
+vleocity.</li>
+<li>Change themes (who doesnt love good themes).</li>
+<li>Make new themes.</li>
+<li>Change gravity.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<ul>
+<li>Download the release.</li>
+<li>Extract the .zip file.</li>
+<li>Run the .exe file.</li>
+</ul>
+<h2 id="how-to-use">How to use</h2>
+<p>To run the software you simply have to extract the release folder and
+run the executable. You will see two windows open one will be an
+immovable window and other will be a terminal. The immovable window will
+show the physics and since this project is CLI based you will have to
+use the terminals to interact with the application.</p>
+<h3
+id="there-are-somethings-you-should-consider-before-reading-the-guide.">There
+are somethings you should consider before reading the guide.</h3>
+<ul>
+<li>Text in <code>&lt;&gt;</code> refer to elements that you will have
+to enter.</li>
+<li>Text in <code>{}</code> refer to optional elements, in some cases
+the options may be seperated by <code>|</code></li>
+<li>In some places where normally comma is given you do not have to give
+them, for example when giving location u dont have to do
+<code>41, 21</code> you can simply do <code>41 21</code>.</li>
+<li>In places where you may have to give integer values if you give
+something like <code>54ae</code> it will be recognized as
+<code>54</code>.</li>
+</ul>
+<p>Now you should be ready to use.</p>
+<p><strong>Exiting the program:</strong></p>
+<pre><code>exit</code></pre>
+<p>Instead of writing <code>exit</code> you can even simply write
+<code>e</code> and it will work.</p>
+<p><strong>Getting help:</strong></p>
+<pre><code>help</code></pre>
+<p><strong>Getting Info about project:</strong></p>
+<pre><code>getinfo</code></pre>
+<p><strong>Adding bodies to display:</strong></p>
+<pre><code>addbody {radius} {x_position} {y_position}</code></pre>
+<p>Simply using <code>addbody</code> without anything else will add a
+shape of raidus 5 at position 0,0.</p>
+<p><strong>Updating Velocity:</strong></p>
+<pre><code>updatevelocity &lt;x_velocity&gt; &lt;y_velocity&gt; {increment|change}</code></pre>
+<p>X and Y velocity are important to give but third option is set to
+increment by default.</p>
+<p><strong>Update gravity:</strong></p>
+<pre><code>setgravity &lt;x_pull&gt; &lt;y_pull&gt;</code></pre>
+<p>In this program instead of having a point as gravity center you
+define how much pull there should be in x and y direction.</p>
+<p><strong>Set Theme:</strong></p>
+<pre><code>theme {theme_index}</code></pre>
+<p>Just by typing <code>theme</code> you will get a list of themes you
+currently have and you need to look up the index from the list.</p>
+<p><strong>Adding a new Theme:</strong></p>
+<pre><code>addtheme</code></pre>
+<p>Just typing a single word is enough to start the theme adding process
+and the program will then ask for name you want to save it as and RGB
+colour codes. When writing colour codes do not add commas but use only
+spaces, for example instead of <code>0, 0, 0</code> you have to use
+<code>0 0 0</code>.</p>
+</body>
+</html>
