@@ -42,6 +42,7 @@ void INPUT(Basic2DP& b, sf::RectangleShape& border) {
 			tokens = cli.parse(str);
 			std::cout << "\033[96m";
 
+			if (tokens.empty()) { continue; }
 			if (tokens[0] == "exit" || tokens[0] == "e") {
 				exit_requested = true;
 				break;
