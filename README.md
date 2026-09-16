@@ -1,8 +1,8 @@
 # BASIC2DP
 
-Basic2DP is a 2D physics engine that can simulate collision, movement and force acting on a body.
+Basic2DP is a 2D physics engine that can simulate collision and movement of a body.
 This engine is made as an intro towards physics and making graphics in computer programs. It is made in C++17 and for graphics I used SFML(Simple and Fast Multimedia Library).
-This project only features translation of now but I might implement rotation with additional shapes in the future.
+This project only supports translation as of now but I might implement rotation with additional shapes in the future.
 The project comes with inbuilt 10 themes to help you customize your experience.
 
 # Table of Contents
